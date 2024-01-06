@@ -99,9 +99,12 @@ class MyGUI:
         event.widget.config(background=BUTTON_RED, foreground=BRIGHTBRIGHT_WHITE)
 
     def StartD(self):
-        yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
-        video = yt.streams.get_highest_resolution()
-        video.download()
+        if self.LinkTBox.get("1.0", 'end-1c') != "":
+            yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
+            video = yt.streams.get_highest_resolution()
+            video.download()
+        else:
+            pass
 
     def CloseD(self):
         self.root.quit()
