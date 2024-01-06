@@ -101,7 +101,7 @@ class MyGUI:
         event.widget.config(background=BUTTON_RED, foreground=BRIGHTBRIGHT_WHITE)
 
     def StartD(self):
-        if "youtu" in self.LinkTBox.get("1.0", 'end-1c'):
+        if "https://www.youtube.com/watch?v=" or "https://youtu.be/" in self.LinkTBox.get("1.0", 'end-1c'):
             self.LabelMessage.config(text="Downloading...")
             self.LabelMessage.pack(padx=5, pady=5)
             yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
