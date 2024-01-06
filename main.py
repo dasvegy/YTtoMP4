@@ -57,7 +57,6 @@ class MyGUI:
         self.root.title("vegy's YT Downloader")
         self.root.resizable(False, False)
         self.root.configure(background=BACKGROUND_COLOR)
-        self.root.iconbitmap('icon.ico')
         # -- Title Text -- #
         self.title_label = tk.Label(self.root, text="vegy's YT Downloader", font=TitleFont,
                                     foreground=BRIGHTBRIGHT_WHITE, background=BACKGROUND_COLOR)
@@ -72,6 +71,9 @@ class MyGUI:
         self.LinkTBox = tk.Text(self.root, height=2, font=NormalFont, background=BLACK,
                                 foreground=BRIGHTBRIGHT_WHITE, border=0, highlightthickness=0)
         self.LinkTBox.pack(padx=10)
+
+        self.LabelMessage = tk.Label(self.root, text="", font=SmallFont,
+                                     foreground=WHITE, background=BACKGROUND_COLOR)
 
         # -- Buttons Frame -- #
         self.buttons_frame = tk.Frame(self.root, background=BACKGROUND_COLOR)
@@ -99,12 +101,18 @@ class MyGUI:
         event.widget.config(background=BUTTON_RED, foreground=BRIGHTBRIGHT_WHITE)
 
     def StartD(self):
-        if self.LinkTBox.get("1.0", 'end-1c') != "":
+        if "youtu" in self.LinkTBox.get("1.0", 'end-1c'):
+            self.LabelMessage.config(text="Downloading...")
+            self.LabelMessage.pack(padx=5, pady=5)
             yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
             video = yt.streams.get_highest_resolution()
             video.download()
+
+            self.LabelMessage.config(text="Download Successful")
+
         else:
-            pass
+            self.LabelMessage.config(text="False Input")
+            self.LabelMessage.pack(padx=5, pady=5)
 
     def CloseD(self):
         self.root.quit()
