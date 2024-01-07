@@ -100,16 +100,20 @@ class MyGUI:
     def restore_color_on_hover(self, event):
         event.widget.config(background=BUTTON_RED, foreground=BRIGHTBRIGHT_WHITE)
 
+    def download(self):
+        self.LabelMessage.config(text="Downloading...")
+        self.LabelMessage.pack(padx=5, pady=5)
+        yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
+        video = yt.streams.get_highest_resolution()
+        video.download()
+
+        self.LabelMessage.config(text="Download Successful")
+
     def StartD(self):
-        if "https://www.youtube.com/watch?v=" or "https://youtu.be/" in self.LinkTBox.get("1.0", 'end-1c'):
-            self.LabelMessage.config(text="Downloading...")
-            self.LabelMessage.pack(padx=5, pady=5)
-            yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
-            video = yt.streams.get_highest_resolution()
-            video.download()
-
-            self.LabelMessage.config(text="Download Successful")
-
+        if "https://www.youtube.com/watch?v=" in self.LinkTBox.get("1.0", 'end-1c'):
+            self.download()
+        elif "https://youtu.be/" in self.LinkTBox.get("1.0", 'end-1c'):
+            self.download()
         else:
             self.LabelMessage.config(text="False Input")
             self.LabelMessage.pack(padx=5, pady=5)
