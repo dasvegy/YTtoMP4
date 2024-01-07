@@ -13,7 +13,8 @@ My own little Project, a YouTube video downloader written in Python, with a GUI 
 ***NOTE: This is meant to be used for educational purposes only.***
 
 ## TO-DOs
-- [ ] MP3 Download`s
+- [X] .mp3 Download`s
+- [X] .wav Download`s
 
 
 ## Screenshot
