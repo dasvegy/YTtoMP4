@@ -131,6 +131,7 @@ class MyGUI:
         self.root.resizable(False, False)
         self.root.configure(background=BACKGROUND_COLOR)
         self.icon = tk.PhotoImage(file="assets/img/icon.png")
+        self.root.iconphoto(False, self.icon)
 
         # -- Title Text -- #
         self.title_label = tk.Label(self.root, text="vegy's YT Downloader", font=TitleFont,
@@ -157,14 +158,20 @@ class MyGUI:
         self.mp4_button = tk.Button(self.format_buttons_frame, text="MP4",
                                     command=self.mp4_button_pressed, **button_format_style)
         self.mp4_button.pack(side=tk.LEFT, padx=5)
+        self.mp4_button.bind("<Enter>", self.change_color_on_hover)
+        self.mp4_button.bind("<Leave>", self.restore_color_on_hover)
 
         self.mp3_button = tk.Button(self.format_buttons_frame, text="MP3",
                                     command=self.mp3_button_pressed, **button_format_style)
         self.mp3_button.pack(side=tk.RIGHT, padx=5)
+        self.mp3_button.bind("<Enter>", self.change_color_on_hover)
+        self.mp3_button.bind("<Leave>", self.restore_color_on_hover)
 
         self.wav_button = tk.Button(self.format_buttons_frame, text="WAV",
                                     command=self.wav_button_pressed, **button_format_style)
         self.wav_button.pack(side=tk.RIGHT, padx=5)
+        self.wav_button.bind("<Enter>", self.change_color_on_hover)
+        self.wav_button.bind("<Leave>", self.restore_color_on_hover)
 
         self.format_label = tk.Label(self.root, text=f"Format: {format}", font=SmallFont,
                                      foreground=WHITE, background=BACKGROUND_COLOR)
