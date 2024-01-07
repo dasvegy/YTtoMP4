@@ -38,6 +38,9 @@ BRIGHT_CYAN = '#94c9b2'
 BRIGHT_WHITE = '#eaeaea'
 BRIGHTBRIGHT_WHITE = '#f9f9f9'
 
+# Variables
+format = "MP4"
+
 button_style = {
     'font': NormalFont,
     'background': BUTTON_RED,
@@ -48,9 +51,79 @@ button_style = {
     'width': 10
 }
 
+button_format_style = {
+    'font': NormalFont,
+    'background': BUTTON_RED,
+    'foreground': BRIGHTBRIGHT_WHITE,
+    'activebackground': RED,
+    'highlightthickness': 0,
+    'border': 0,
+    'width': 5
+}
+
 
 # --- GUI Class --- #
 class MyGUI:
+    def update_format_label(self):
+        self.format_label.config(text=f"Format: {format}")
+
+    def mp4_button_pressed(self):
+        global format
+        format = "MP4"
+        self.update_format_label()
+
+    def mp3_button_pressed(self):
+        global format
+        format = "MP3"
+        self.update_format_label()
+
+    def wav_button_pressed(self):
+        global format
+        format = "WAV"
+        self.update_format_label()
+
+    def change_color_on_hover(self, event):
+        event.widget.config(background=BUTTON_RED_2, foreground=BLACK)
+
+    def restore_color_on_hover(self, event):
+        event.widget.config(background=BUTTON_RED, foreground=BRIGHTBRIGHT_WHITE)
+
+    def download(self):
+        self.LabelMessage.config(text="Downloading...")
+        if format == "MP4":
+            self.LabelMessage.pack(padx=5, pady=5)
+            yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
+            video = yt.streams.get_highest_resolution()
+            video.download()
+        elif format == "MP3":
+            self.LabelMessage.pack(padx=5, pady=5)
+            yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
+            stream = yt.streams.filter(only_audio=True).first()
+            stream.download(filename=f"{yt.title}.mp3")
+        elif format == "WAV":
+            self.LabelMessage.pack(padx=5, pady=5)
+            yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
+            stream = yt.streams.filter(only_audio=True).first()
+            stream.download(filename=f"{yt.title}.wav")
+        else:
+            pass
+
+        self.LabelMessage.config(text="Download Successful")
+
+    def StartD(self):
+        # -- Checks if a YouTube Link is inserted and then Starts the Download or shows Error -- #
+        if "https://www.youtube.com/watch?v=" in self.LinkTBox.get("1.0", 'end-1c'):
+            self.download()
+        elif "https://youtu.be/" in self.LinkTBox.get("1.0", 'end-1c'):
+            self.download()
+        # -- Error -- #
+        else:
+            self.LabelMessage.config(text="False Input")
+            self.LabelMessage.pack(padx=5, pady=5)
+
+    def CloseD(self):
+        self.root.quit()
+
     def __init__(self):
         self.root = tk.Tk()
         self.root.geometry(SCREEN_SIZE)
@@ -75,6 +148,26 @@ class MyGUI:
         self.LabelMessage = tk.Label(self.root, text="", font=SmallFont,
                                      foreground=WHITE, background=BACKGROUND_COLOR)
 
+        # -- Format Buttons -- #
+        self.format_buttons_frame = tk.Frame(self.root, background=BACKGROUND_COLOR)
+        self.format_buttons_frame.pack(pady=10, side=tk.TOP)
+
+        self.mp4_button = tk.Button(self.format_buttons_frame, text="MP4",
+                                    command=self.mp4_button_pressed, **button_format_style)
+        self.mp4_button.pack(side=tk.LEFT, padx=5)
+
+        self.mp3_button = tk.Button(self.format_buttons_frame, text="MP3",
+                                    command=self.mp3_button_pressed, **button_format_style)
+        self.mp3_button.pack(side=tk.RIGHT, padx=5)
+
+        self.wav_button = tk.Button(self.format_buttons_frame, text="WAV",
+                                    command=self.wav_button_pressed, **button_format_style)
+        self.wav_button.pack(side=tk.RIGHT, padx=5)
+
+        self.format_label = tk.Label(self.root, text=f"Format: {format}", font=SmallFont,
+                                     foreground=WHITE, background=BACKGROUND_COLOR)
+        self.format_label.pack(padx=10)
+
         # -- Buttons Frame -- #
         self.buttons_frame = tk.Frame(self.root, background=BACKGROUND_COLOR)
         self.buttons_frame.pack(pady=15, side=tk.BOTTOM)
@@ -93,33 +186,6 @@ class MyGUI:
 
         # -- MainLoop -- #
         self.root.mainloop()
-
-    def change_color_on_hover(self, event):
-        event.widget.config(background=BUTTON_RED_2, foreground=BLACK)
-
-    def restore_color_on_hover(self, event):
-        event.widget.config(background=BUTTON_RED, foreground=BRIGHTBRIGHT_WHITE)
-
-    def download(self):
-        self.LabelMessage.config(text="Downloading...")
-        self.LabelMessage.pack(padx=5, pady=5)
-        yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
-        video = yt.streams.get_highest_resolution()
-        video.download()
-
-        self.LabelMessage.config(text="Download Successful")
-
-    def StartD(self):
-        if "https://www.youtube.com/watch?v=" in self.LinkTBox.get("1.0", 'end-1c'):
-            self.download()
-        elif "https://youtu.be/" in self.LinkTBox.get("1.0", 'end-1c'):
-            self.download()
-        else:
-            self.LabelMessage.config(text="False Input")
-            self.LabelMessage.pack(padx=5, pady=5)
-
-    def CloseD(self):
-        self.root.quit()
 
 
 MyGUI()
