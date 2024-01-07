@@ -130,6 +130,8 @@ class MyGUI:
         self.root.title("vegy's YT Downloader")
         self.root.resizable(False, False)
         self.root.configure(background=BACKGROUND_COLOR)
+        self.icon = tk.PhotoImage(file="assets/img/icon.png")
+
         # -- Title Text -- #
         self.title_label = tk.Label(self.root, text="vegy's YT Downloader", font=TitleFont,
                                     foreground=BRIGHTBRIGHT_WHITE, background=BACKGROUND_COLOR)
