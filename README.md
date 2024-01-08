@@ -30,6 +30,8 @@ My own little Project, a YouTube video downloader written in Python, with a GUI 
 $ python -m pip install pytube
 ```
 
+[JetBrains Mono Font](https://www.jetbrains.com/lp/mono/)
+
 [tkinter](https://docs.python.org/3/library/tkinter.html)
   > comes with python, but on Linux you have to download it through the packagemanager
 
