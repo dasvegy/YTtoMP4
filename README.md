@@ -25,6 +25,8 @@ My own little Project, a YouTube video downloader written in Python, with a GUI 
 </div>
 
 ## Dependencies:
+[JetBrains Mono Font](https://www.jetbrains.com/lp/mono/)
+
 [pytube](https://github.com/pytube/pytube)
 ```bash
 $ python -m pip install pytube
