@@ -161,17 +161,17 @@ class MyGUI:
         self.mp4_button.bind("<Enter>", self.change_color_on_hover)
         self.mp4_button.bind("<Leave>", self.restore_color_on_hover)
 
-        self.mp3_button = tk.Button(self.format_buttons_frame, text="MP3",
-                                    command=self.mp3_button_pressed, **button_format_style)
-        self.mp3_button.pack(side=tk.RIGHT, padx=5)
-        self.mp3_button.bind("<Enter>", self.change_color_on_hover)
-        self.mp3_button.bind("<Leave>", self.restore_color_on_hover)
-
         self.wav_button = tk.Button(self.format_buttons_frame, text="WAV",
                                     command=self.wav_button_pressed, **button_format_style)
         self.wav_button.pack(side=tk.RIGHT, padx=5)
         self.wav_button.bind("<Enter>", self.change_color_on_hover)
         self.wav_button.bind("<Leave>", self.restore_color_on_hover)
+
+        self.mp3_button = tk.Button(self.format_buttons_frame, text="MP3",
+                                    command=self.mp3_button_pressed, **button_format_style)
+        self.mp3_button.pack(side=tk.RIGHT, padx=5)
+        self.mp3_button.bind("<Enter>", self.change_color_on_hover)
+        self.mp3_button.bind("<Leave>", self.restore_color_on_hover)
 
         self.format_label = tk.Label(self.root, text=f"Format: {format}", font=SmallFont,
                                      foreground=WHITE, background=BACKGROUND_COLOR)
