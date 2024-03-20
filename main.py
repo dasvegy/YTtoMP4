@@ -1,5 +1,6 @@
 import time
 import tkinter as tk
+import dotenv
 from tkinter import ttk
 from pytube import YouTube
 
@@ -11,35 +12,59 @@ TitleFont = ("JetBrains Mono", 14)
 NormalFont = ("JetBrains Mono", 12)
 SmallFont = ("JetBrains Mono", 10)
 
-# -- Colors -- #
-BACKGROUND_COLOR = "#1a1a19"
-FOREGROUND_COLOR = "#d1d1d1"
-
-# -Normal- #
-BLACK = '#333332'
-RED = '#ff968c'
-GREEN = '#61957f'
-YELLOW = '#ffc591'
-BLUE = '#8db4d4'
-MAGENTA = '#de9bc8'
-CYAN = '#7bb099'
-WHITE = '#d1d1d1'
-BUTTON_RED = '#bd493e'
-BUTTON_RED_2 = '#c75c52'
-
-# -Bright- #
-BRIGHT_BLACK = '#4c4c4b'
-BRIGHT_RED = '#ffafa5'
-BRIGHT_GREEN = '#7aae98'
-BRIGHT_YELLOW = '#ffdeaa'
-BRIGHT_BLUE = '#a6cded'
-BRIGHT_MAGENTA = '#f7b4e1'
-BRIGHT_CYAN = '#94c9b2'
-BRIGHT_WHITE = '#eaeaea'
-BRIGHTBRIGHT_WHITE = '#f9f9f9'
-
-# Variables
+# -- Variables -- #
 format = "MP4"
+
+
+color_theme = "Spezi"
+
+if color_theme == "Spezi":
+    # -- Colors -- #
+    BACKGROUND_COLOR = "#3b2c6a"
+    FOREGROUND_COLOR = "#d1d1d1"
+
+    BLACK = '#271d47'
+    RED = '#ff968c'
+    WHITE = '#d1d1d1'
+    BUTTON_RED = '#c53632'
+    BUTTON_RED_2 = '#c53632'
+
+    BRIGHT_BLACK = '#4c4c4b'
+    BRIGHT_RED = '#ffafa5'
+    BRIGHT_WHITE = '#eaeaea'
+    BRIGHTBRIGHT_WHITE = '#f9f9f9'
+elif color_theme == "Lena":
+    # -- Colors -- #
+    BACKGROUND_COLOR = "#3b2c6a"
+    FOREGROUND_COLOR = "#d1d1d1"
+
+    BLACK = '#271d47'
+    RED = '#ff968c'
+    WHITE = '#d1d1d1'
+    BUTTON_RED = '#c53632'
+    BUTTON_RED_2 = '#c53632'
+
+    BRIGHT_BLACK = '#4c4c4b'
+    BRIGHT_RED = '#ffafa5'
+    BRIGHT_WHITE = '#eaeaea'
+    BRIGHTBRIGHT_WHITE = '#f9f9f9'
+else:
+    # -- Colors -- #
+    BACKGROUND_COLOR = "#1a1a19"
+    FOREGROUND_COLOR = "#d1d1d1"
+
+    # -Normal- #
+    BLACK = '#333332'
+    RED = '#ff968c'
+    WHITE = '#d1d1d1'
+    BUTTON_RED = '#bd493e'
+    BUTTON_RED_2 = '#c75c52'
+
+    # -Bright- #
+    BRIGHT_BLACK = '#4c4c4b'
+    BRIGHT_RED = '#ffafa5'
+    BRIGHT_WHITE = '#eaeaea'
+    BRIGHTBRIGHT_WHITE = '#f9f9f9'
 
 button_style = {
     'font': NormalFont,
@@ -77,6 +102,10 @@ class MyGUI:
         format = "MP3"
         self.update_format_label()
 
+    def change_theme_spezi(self):
+        global color_theme
+        color_theme = "Spezi"
+
     def wav_button_pressed(self):
         global format
         format = "WAV"
@@ -110,12 +139,40 @@ class MyGUI:
 
         self.LabelMessage.config(text="Download Successful")
 
+    def secret_settings(self):
+        self.settingsroot = tk.Tk()
+        self.settingsroot.geometry("250x350")
+        self.settingsroot.title("Secret Settings")
+        self.settingsroot.resizable(False, False)
+        self.settingsroot.configure(background=BACKGROUND_COLOR)
+
+        self.settingslabel = tk.Label(self.settingsroot, text="Secret Settings", font=TitleFont,
+                                      foreground=BRIGHTBRIGHT_WHITE, background=BACKGROUND_COLOR)
+        self.settingslabel.pack(padx=4, pady=4, side=tk.TOP)
+
+        self.theme_btns_row1 = tk.Frame(self.settingsroot, background=BACKGROUND_COLOR)
+        self.theme_btns_row1.pack(pady=10, side=tk.TOP)
+
+        self.ThemeButton1 = tk.Button(self.theme_btns_row1, text="Red", command=self.CloseD, **button_style)
+        self.ThemeButton1.pack(side=tk.RIGHT, padx=5)
+        self.ThemeButton1.bind("<Enter>", self.change_color_on_hover)
+        self.ThemeButton1.bind("<Leave>", self.restore_color_on_hover)
+
+        self.ThemeButton2 = tk.Button(self.theme_btns_row1, text="Spezi", command=self.change_theme_spezi,
+                                      **button_style)
+        self.ThemeButton2.pack(side=tk.RIGHT, padx=5)
+        self.ThemeButton2.bind("<Enter>", self.change_color_on_hover)
+        self.ThemeButton2.bind("<Leave>", self.restore_color_on_hover)
+
     def StartD(self):
         # -- Checks if a YouTube Link is inserted and then Starts the Download or shows Error -- #
         if "https://www.youtube.com/watch?v=" in self.LinkTBox.get("1.0", 'end-1c'):
             self.download()
         elif "https://youtu.be/" in self.LinkTBox.get("1.0", 'end-1c'):
             self.download()
+        elif "Secret Settings" in self.LinkTBox.get("1.0", 'end-1c'):
+            self.secret_settings()
+            print("cock")
         # -- Error -- #
         else:
             self.LabelMessage.config(text="False Input")
