@@ -57,6 +57,7 @@ else:
     WHITE = '#d1d1d1'
     BUTTON_RED = '#bd493e'
     BUTTON_RED_2 = '#c75c52'
+    BUTTON_BLACK = '#000000'
 
     # -Bright- #
     BRIGHT_BLACK = '#4c4c4b'
@@ -110,7 +111,7 @@ class MyGUI:
         self.update_format_label()
 
     def change_color_on_hover(self, event):
-        event.widget.config(background=BUTTON_RED_2, foreground=BLACK)
+        event.widget.config(background=BUTTON_RED_2, foreground=BUTTON_BLACK)
 
     def restore_color_on_hover(self, event):
         event.widget.config(background=BUTTON_RED, foreground=BRIGHTBRIGHT_WHITE)
