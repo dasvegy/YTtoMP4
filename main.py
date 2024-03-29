@@ -14,9 +14,7 @@ SmallFont = ("JetBrains Mono", 10)
 
 # -- Variables -- #
 format = "MP4"
-
-
-color_theme = "Spezi"
+color_theme = "Red"
 
 if color_theme == "Spezi":
     # -- Colors -- #
@@ -255,4 +253,3 @@ class MyGUI:
 
 
 MyGUI()
-quit()
