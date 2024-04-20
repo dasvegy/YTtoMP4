@@ -1,6 +1,8 @@
+import os
 import time
 import tkinter as tk
 import dotenv
+import tkinter.filedialog
 from tkinter import ttk
 from pytube import YouTube
 
@@ -16,54 +18,23 @@ SmallFont = ("JetBrains Mono", 10)
 format = "MP4"
 color_theme = "Red"
 
-if color_theme == "Spezi":
-    # -- Colors -- #
-    BACKGROUND_COLOR = "#3b2c6a"
-    FOREGROUND_COLOR = "#d1d1d1"
+# -- Colors -- #
+BACKGROUND_COLOR = "#1a1a19"
+FOREGROUND_COLOR = "#d1d1d1"
 
-    BLACK = '#271d47'
-    RED = '#ff968c'
-    WHITE = '#d1d1d1'
-    BUTTON_RED = '#c53632'
-    BUTTON_RED_2 = '#c53632'
+# -Normal- #
+BLACK = '#333332'
+RED = '#ff968c'
+WHITE = '#d1d1d1'
+BUTTON_RED = '#bd493e'
+BUTTON_RED_2 = '#c75c52'
+BUTTON_BLACK = '#000000'
 
-    BRIGHT_BLACK = '#4c4c4b'
-    BRIGHT_RED = '#ffafa5'
-    BRIGHT_WHITE = '#eaeaea'
-    BRIGHTBRIGHT_WHITE = '#f9f9f9'
-elif color_theme == "Lena":
-    # -- Colors -- #
-    BACKGROUND_COLOR = "#3b2c6a"
-    FOREGROUND_COLOR = "#d1d1d1"
-
-    BLACK = '#271d47'
-    RED = '#ff968c'
-    WHITE = '#d1d1d1'
-    BUTTON_RED = '#c53632'
-    BUTTON_RED_2 = '#c53632'
-
-    BRIGHT_BLACK = '#4c4c4b'
-    BRIGHT_RED = '#ffafa5'
-    BRIGHT_WHITE = '#eaeaea'
-    BRIGHTBRIGHT_WHITE = '#f9f9f9'
-else:
-    # -- Colors -- #
-    BACKGROUND_COLOR = "#1a1a19"
-    FOREGROUND_COLOR = "#d1d1d1"
-
-    # -Normal- #
-    BLACK = '#333332'
-    RED = '#ff968c'
-    WHITE = '#d1d1d1'
-    BUTTON_RED = '#bd493e'
-    BUTTON_RED_2 = '#c75c52'
-    BUTTON_BLACK = '#000000'
-
-    # -Bright- #
-    BRIGHT_BLACK = '#4c4c4b'
-    BRIGHT_RED = '#ffafa5'
-    BRIGHT_WHITE = '#eaeaea'
-    BRIGHTBRIGHT_WHITE = '#f9f9f9'
+# -Bright- #
+BRIGHT_BLACK = '#4c4c4b'
+BRIGHT_RED = '#ffafa5'
+BRIGHT_WHITE = '#eaeaea'
+BRIGHTBRIGHT_WHITE = '#f9f9f9'
 
 button_style = {
     'font': NormalFont,
@@ -84,6 +55,19 @@ button_format_style = {
     'border': 0,
     'width': 5
 }
+
+button_style_large = {
+    'font': NormalFont,
+    'background': BUTTON_RED,
+    'foreground': BRIGHTBRIGHT_WHITE,
+    'activebackground': RED,
+    'highlightthickness': 0,
+    'border': 0,
+    'width': 20
+}
+
+dotenv.load_dotenv()
+current_dir = os.getenv("DIR")
 
 
 # --- GUI Class --- #
@@ -122,17 +106,17 @@ class MyGUI:
             self.LabelMessage.pack(padx=5, pady=5)
             yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
             video = yt.streams.get_highest_resolution()
-            video.download()
+            video.download(output_path=current_dir)
         elif format == "MP3":
             self.LabelMessage.pack(padx=5, pady=5)
             yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
             stream = yt.streams.filter(only_audio=True).first()
-            stream.download(filename=f"{yt.title}.mp3")
+            stream.download(filename=f"{yt.title}.mp3", output_path=current_dir)
         elif format == "WAV":
             self.LabelMessage.pack(padx=5, pady=5)
             yt = YouTube(str(self.LinkTBox.get("1.0", 'end-1c')))
             stream = yt.streams.filter(only_audio=True).first()
-            stream.download(filename=f"{yt.title}.wav")
+            stream.download(filename=f"{yt.title}.wav", output_path=current_dir)
         else:
             pass
 
@@ -141,27 +125,18 @@ class MyGUI:
     def secret_settings(self):
         self.settingsroot = tk.Tk()
         self.settingsroot.geometry("250x350")
-        self.settingsroot.title("Secret Settings")
+        self.settingsroot.title("Settings")
         self.settingsroot.resizable(False, False)
         self.settingsroot.configure(background=BACKGROUND_COLOR)
 
-        self.settingslabel = tk.Label(self.settingsroot, text="Secret Settings", font=TitleFont,
+        self.settingslabel = tk.Label(self.settingsroot, text="Settings", font=TitleFont,
                                       foreground=BRIGHTBRIGHT_WHITE, background=BACKGROUND_COLOR)
         self.settingslabel.pack(padx=4, pady=4, side=tk.TOP)
 
-        self.theme_btns_row1 = tk.Frame(self.settingsroot, background=BACKGROUND_COLOR)
-        self.theme_btns_row1.pack(pady=10, side=tk.TOP)
-
-        self.ThemeButton1 = tk.Button(self.theme_btns_row1, text="Red", command=self.CloseD, **button_style)
-        self.ThemeButton1.pack(side=tk.RIGHT, padx=5)
-        self.ThemeButton1.bind("<Enter>", self.change_color_on_hover)
-        self.ThemeButton1.bind("<Leave>", self.restore_color_on_hover)
-
-        self.ThemeButton2 = tk.Button(self.theme_btns_row1, text="Spezi", command=self.change_theme_spezi,
-                                      **button_style)
-        self.ThemeButton2.pack(side=tk.RIGHT, padx=5)
-        self.ThemeButton2.bind("<Enter>", self.change_color_on_hover)
-        self.ThemeButton2.bind("<Leave>", self.restore_color_on_hover)
+        self.dir_btn = tk.Button(self.settingsroot, text="Select Directory", **button_style_large)
+        self.dir_btn.pack(side=tk.TOP, padx=5)
+        self.dir_btn.bind("<Enter>", self.change_color_on_hover)
+        self.dir_btn.bind("<Leave>", self.restore_color_on_hover)
 
     def StartD(self):
         # -- Checks if a YouTube Link is inserted and then Starts the Download or shows Error -- #
@@ -169,9 +144,8 @@ class MyGUI:
             self.download()
         elif "https://youtu.be/" in self.LinkTBox.get("1.0", 'end-1c'):
             self.download()
-        elif "Secret Settings" in self.LinkTBox.get("1.0", 'end-1c'):
+        elif "Settings" in self.LinkTBox.get("1.0", 'end-1c'):
             self.secret_settings()
-            print("cock")
         # -- Error -- #
         else:
             self.LabelMessage.config(text="False Input")
