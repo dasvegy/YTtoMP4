@@ -10,7 +10,7 @@
 ## YTtoMP4, it downloads YouTube videos.
 My own little Project, a YouTube video downloader written in Python, with a GUI made with tkinter.
 
-***NOTE: This is meant to be used for educational purposes only.***
+***This is meant to be used for educational purposes only.***
 
 ## TO-DOs
 - [X] .mp3 Download`s
