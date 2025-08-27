@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <h1>Vegy`s YT Downloader</h1>
+    <h1>Vegy's YT Downloader</h1>
   </p>
   <p>
     <a href="#"><img src="https://raw.githubusercontent.com/dasvegy/YTtoMP4/main/assets/img/icon_scaled.png" width="256" height="256" alt="pytube logo" /></a>
